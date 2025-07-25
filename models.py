@@ -2,17 +2,18 @@ from sqlalchemy import Column, Integer, String, Boolean, DateTime, Text, DECIMAL
 from sqlalchemy.orm import relationship
 from datetime import datetime
 from db import db
+from flask_login import UserMixin
 
-class User(db.Model):
+class User(UserMixin, db.Model):
     __tablename__ = "user"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     username = Column(String(100), unique=True, nullable=False)
-    Email = Column(String(100), unique=True, nullable=False)
-    Passkey = Column(String(100), unique=True, nullable=False)
+    email = Column(String(255), unique=True, nullable=False)
+    passkey = Column(String(255), nullable=False)
     full_name = Column(String(100), unique=True, nullable=False)
     phone_number = Column(String(15), unique=True, nullable=False)
-    Rolle = Column(String(20), default='USER')
+    rolle = Column(String(20), default='USER') 
     is_active = Column(Boolean, default=True)
     registration_date = Column(DateTime, default=datetime.utcnow)
     last_login = Column(DateTime)
@@ -20,8 +21,11 @@ class User(db.Model):
     created_parking_lots = relationship("ParkingLot", back_populates="creator")
     reservations = relationship("Reservation", back_populates="user")
 
+    def get_id(self):
+        return f"user_{self.id}"
+
     def __repr__(self):
-        return f"<User(username='{self.username}', email='{self.Email}')>"
+        return f"<User(username='{self.username}', email='{self.email}')>"
 
 
 class ParkingLot(db.Model):
@@ -90,7 +94,7 @@ class Reservation(db.Model):
         return f"<Reservation(user_id={self.user_id}, spot_id={self.spot_id}, vehicle_number='{self.vehicle_number}')>"
 
 
-class Admin(db.Model):
+class Admin(UserMixin, db.Model):  
     __tablename__ = "Admin"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -103,6 +107,9 @@ class Admin(db.Model):
     created_date = Column(DateTime, default=datetime.utcnow)
     last_login = Column(DateTime)
     is_active = Column(Boolean, default=True)
+
+    def get_id(self):
+        return f"admin_{self.id}"
 
     def __repr__(self):
         return f"<Admin(username='{self.username}', email='{self.email}')>"
