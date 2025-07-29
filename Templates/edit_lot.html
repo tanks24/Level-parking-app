@@ -1,0 +1,19 @@
+<h2>Edit Parking Lot</h2>
+
+<form method="POST">
+  <label>Name:</label><br>
+  <input type="text" name="name" value="{{ lot.prime_location_name }}"><br><br>
+
+  <label>Address:</label><br>
+  <input type="text" name="address" value="{{ lot.address }}"><br><br>
+
+  <label>Pin Code:</label><br>
+  <input type="text" name="pin_code" value="{{ lot.pin_code }}"><br><br>
+
+  <label>Price per hour:</label><br>
+  <input type="number" name="price" step="0.01" value="{{ lot.price_per_hour }}"><br><br>
+
+  <input type="submit" value="Save Changes">
+</form>
+
+<a href="{{ url_for('routes.admin_dashboard') }}">Dashboard</a>

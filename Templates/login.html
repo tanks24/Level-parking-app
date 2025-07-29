@@ -2,24 +2,96 @@
 <html>
 <head>
     <title>Login</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: url("{{ url_for('static', filename='bg.jpg') }}") no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login-container {
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 40px;
+            border-radius: 15px;
+            width: 400px;
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            text-align: left;
+            margin: 10px 0 5px 0;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: none;
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        p {
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        a {
+            color: #00cfff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <h2>Login</h2>
-    <form method="POST" action="/login">
-        <label>Email:</label><br>
-        <input type="email" name="email" required><br><br>
+    <div class="login-container">
+        <h2>Login</h2>
+        <form method="POST" action="/login">
+            <label>Email:</label>
+            <input type="email" name="email" required>
 
-        <label>Password:</label><br>
-        <input type="password" name="passkey" required><br><br>
+            <label>Password:</label>
+            <input type="password" name="passkey" required>
 
-        <label>Login As:</label><br>
-        <select name="role" required>
-            <option value="user">User</option>
-            <option value="admin">Admin</option>
-        </select><br><br>
+            <label>Login As:</label>
+            <select name="role" required>
+                <option value="user">User</option>
+                <option value="admin">Admin</option>
+            </select>
 
-        <button type="submit">Login</button>
-    </form>
-    <p>Don't have an account? <a href="/register">Register here</a></p>
+            <button type="submit">Login</button>
+        </form>
+        <p>Don't have an account? <a href="/register">Register here</a></p>
+    </div>
 </body>
 </html>

@@ -37,7 +37,7 @@ class ParkingLot(db.Model):
     pin_code = Column(String(10), nullable=False)
     price_per_hour = Column(DECIMAL(10, 2), nullable=False)
     maximum_number_of_spots = Column(Integer, nullable=False)
-    current_available_spots = Column(Integer)
+    current_available_spots = Column(Integer, nullable=False)
     is_active = Column(Boolean, default=True)
     created_date = Column(DateTime, default=datetime.utcnow)
     created_by = Column(Integer, ForeignKey('user.id'))
@@ -57,9 +57,10 @@ class ParkingSpot(db.Model):
     id = Column(Integer, primary_key=True, autoincrement=True)
     lot_id = Column(Integer, ForeignKey('ParkingLot.id'), nullable=False)
     spot_number = Column(String(20), nullable=False)
-    status = Column(CHAR(1), default='A')  # A = Available, B = Booked, etc.
+    status = Column(CHAR(1), default='A')
     is_active = Column(Boolean, default=True)
     created_date = Column(DateTime, default=datetime.utcnow)
+    is_occupied = db.Column(db.Boolean, default=False)
     last_occupied = Column(DateTime)
 
     lot = relationship("ParkingLot", back_populates="spots")
@@ -92,7 +93,6 @@ class Reservation(db.Model):
 
     def __repr__(self):
         return f"<Reservation(user_id={self.user_id}, spot_id={self.spot_id}, vehicle_number='{self.vehicle_number}')>"
-
 
 class Admin(UserMixin, db.Model):  
     __tablename__ = "Admin"

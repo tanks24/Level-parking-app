@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Parking History</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: url("{{ url_for('static', filename='bg.jpg') }}") no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .history-container {
+            background-color: rgba(0, 0, 0, 0.75);
+            padding: 40px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 1000px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #999;
+            text-align: center;
+        }
+
+        th {
+            background-color: rgba(255, 255, 255, 0.2);
+            font-weight: bold;
+        }
+
+        td {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        button {
+            padding: 6px 12px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            text-decoration: none;
+            color: #00cfff;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        p {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="history-container">
+        <h1>Parking History for {{ current_user.username }}</h1>
+
+        {% if reservations %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Lot</th>
+                        <th>Spot</th>
+                        <th>Parked At</th>
+                        <th>Left At</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for res in reservations %}
+                        <tr>
+                            <td>{{ res.spot.lot.prime_location_name if res.spot and res.spot.lot else "N/A" }}</td>
+                            <td>{{ res.spot.spot_number if res.spot else "N/A" }}</td>
+                            <td>{{ res.parking_timestamp.strftime('%Y-%m-%d %H:%M:%S') if res.parking_timestamp else "N/A" }}</td>
+                            <td>{{ res.leaving_timestamp.strftime('%Y-%m-%d %H:%M:%S') if res.leaving_timestamp else "---" }}</td>
+                            <td>{{ "Released" if res.leaving_timestamp else "Active" }}</td>
+                            <td>
+                                {% if not res.leaving_timestamp %}
+                                    <form method="POST" action="{{ url_for('routes.release_spot', reservation_id=res.id) }}">
+                                        <button type="submit">Release</button>
+                                    </form>
+                                {% else %}
+                                    -
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No reservation history available.</p>
+        {% endif %}
+
+        <a href="{{ url_for('routes.user_dashboard') }}">← Back to Dashboard</a>
+    </div>
+</body>
+</html>

@@ -1,11 +1,191 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>User Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url("{{ url_for('static', filename='bg.jpg') }}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.95);
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 12px rgba(0,0,0,0.2);
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+        }
+
+        th, td {
+            border: 1px solid #aaa;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        button {
+            padding: 8px 12px;
+            margin: 5px;
+            background-color: #2e86de;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        button:hover {
+            background-color: #1e6bb8;
+        }
+
+        .flash-messages {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 20px;
+        }
+
+        .flash-messages li {
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 4px;
+        }
+
+        .flash-messages .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .flash-messages .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .card {
+            border: 1px solid #aaa;
+            padding: 15px;
+            margin-bottom: 30px;
+            border-radius: 6px;
+            background-color: #f9f9f9;
+        }
+
+        .card h3 {
+            margin-top: 0;
+        }
+
+        .links {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .links a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: #2e86de;
+            font-weight: bold;
+        }
+
+        .links a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <h2>Welcome, {{ username }}</h2>
-    <p>You are logged in as a USER.</p>
-    <a href="/logout">Logout</a>
+    <div class="container">
+        <h1>Welcome, {{ username }}</h1>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="flash-messages">
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        {% if active_reservation %}
+        <div class="card">
+            <h3>Your Active Reservation</h3>
+            <p><strong>Lot:</strong> {{ active_reservation.lot.prime_location_name }} (ID: {{ active_reservation.lot_id }})</p>
+            <p><strong>Spot:</strong> {{ active_reservation.spot.spot_number }} (ID: {{ active_reservation.spot_id }})</p>
+            <p><strong>Status:</strong> {{ active_reservation.status }}</p>
+            <p><strong>Hourly Rate:</strong> ₹{{ active_reservation.hourly_rate }}</p>
+            {% if active_reservation.parking_timestamp %}
+                <p><strong>Occupied At:</strong> {{ active_reservation.parking_timestamp.strftime("%Y-%m-%d %H:%M:%S") }}</p>
+            {% endif %}
+            <form method="POST" action="{{ url_for('routes.release_spot', reservation_id=active_reservation.id) }}">
+                <button type="submit" style="background-color: #c0392b;">Release Spot</button>
+            </form>
+        </div>
+        {% endif %}
+
+        <div>
+            <h2>Available Parking Lots</h2>
+            {% if lots %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Lot Name</th>
+                            <th>Address</th>
+                            <th>Pin Code</th>
+                            <th>Price/hr (₹)</th>
+                            <th>Available Spots</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for lot in lots %}
+                            <tr>
+                                <td>{{ lot.prime_location_name }}</td>
+                                <td>{{ lot.address }}</td>
+                                <td>{{ lot.pin_code }}</td>
+                                <td>{{ lot.price_per_hour }}</td>
+                                <td>{{ lot.current_available_spots }}</td>
+                                <td>
+                                    {% if lot.current_available_spots > 0 and not active_reservation %}
+                                        <form method="POST" action="{{ url_for('routes.reserve_spot', lot_id=lot.id) }}">
+                                            <button type="submit">Reserve (₹{{ lot.price_per_hour }})</button>
+                                        </form>
+                                    {% elif active_reservation %}
+                                        <strong>Already Reserved</strong>
+                                    {% else %}
+                                        <strong>Full</strong>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No parking lots available at the moment.</p>
+            {% endif %}
+        </div>
+
+        <div class="links">
+            <a href="{{ url_for('routes.view_parking_history') }}">View Parking History</a> |
+            <a href="{{ url_for('routes.logout') }}">Logout</a>
+        </div>
+    </div>
 </body>
 </html>

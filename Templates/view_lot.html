@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lot Details - {{ lot.prime_location_name }}</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url("{{ url_for('static', filename='bg.jpg') }}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            font-family: Arial, sans-serif;
+            color: #fff;
+        }
+
+        .container {
+            background-color: rgba(0, 0, 0, 0.7);
+            margin: 50px auto;
+            padding: 30px;
+            max-width: 800px;
+            border-radius: 10px;
+        }
+
+        h1, h2 {
+            text-align: center;
+        }
+
+        p {
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 25px;
+            border-collapse: collapse;
+            background-color: #fff;
+            color: #000;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+
+        th {
+            background-color: #2e86de;
+            color: white;
+        }
+
+        td {
+            background-color: #f9f9f9;
+        }
+
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #00c3ff;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        @media screen and (max-width: 600px) {
+            .container {
+                padding: 20px;
+                margin: 20px;
+            }
+
+            table, th, td {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Lot: {{ lot.prime_location_name }}</h1>
+
+        <p><strong>Address:</strong> {{ lot.address }}</p>
+        <p><strong>Pin Code:</strong> {{ lot.pin_code }}</p>
+        <p><strong>Price per hour:</strong> ₹{{ lot.price_per_hour }}</p>
+
+        <h2>Spots in this Lot</h2>
+        <table>
+            <tr>
+                <th>Spot Number</th>
+                <th>Status</th>
+            </tr>
+            {% for spot in spots %}
+            <tr>
+                <td>{{ spot.spot_number }}</td>
+                <td>{{ 'Occupied' if spot.is_occupied else 'Available' }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <a href="{{ url_for('routes.admin_dashboard') }}">Back to Dashboard</a>
+    </div>
+</body>
+</html>

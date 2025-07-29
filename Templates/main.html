@@ -2,17 +2,65 @@
 <html>
 <head>
     <title>Welcome to Vehicle Parking System</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: url("{{ url_for('static', filename='bg.jpg') }}") no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            text-align: center;
+        }
+
+        .container {
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 60px;
+            margin: 100px auto;
+            width: 50%;
+            border-radius: 15px;
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 20px;
+            margin-bottom: 30px;
+        }
+
+        a button {
+            padding: 12px 25px;
+            font-size: 18px;
+            border: none;
+            border-radius: 8px;
+            margin: 10px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+
+        a button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to the Vehicle Parking App</h1>
-    <p>Please choose an option below:</p>
+    <div class="container">
+        <h1>Welcome to the Vehicle Parking App</h1>
+        <p>Please choose an option below:</p>
 
-    <a href="{{ url_for('routes.login') }}">
-        <button>Login</button>
-    </a>
+        <a href="{{ url_for('routes.login') }}">
+            <button>Login</button>
+        </a>
 
-    <a href="{{ url_for('routes.register_user') }}">
-        <button>Register</button>
-    </a>
+        <a href="{{ url_for('routes.register_user') }}">
+            <button>Register</button>
+        </a>
+    </div>
 </body>
 </html>
+

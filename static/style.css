@@ -1,0 +1,73 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f8;
+    color: #333;
+    padding: 20px;
+}
+
+h1, h2 {
+    color: #2c3e50;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+table th, table td {
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+th {
+    background-color: #34495e;
+    color: white;
+}
+
+a {
+    text-decoration: none;
+    color: #2980b9;
+    font-weight: bold;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.flash {
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 4px;
+}
+
+.flash.success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.flash.error {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.flash.info {
+    background-color: #d1ecf1;
+    color: #0c5460;
+}
+
+button {
+    padding: 8px 16px;
+    background-color: #e74c3c;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+button:hover {
+    background-color: #c0392b;
+}

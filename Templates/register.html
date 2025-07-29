@@ -2,28 +2,99 @@
 <html>
 <head>
     <title>Register</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: url("{{ url_for('static', filename='bg.jpg') }}") no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .register-container {
+            background-color: rgba(0, 0, 0, 0.6);
+            padding: 40px;
+            border-radius: 15px;
+            width: 400px;
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            text-align: left;
+            margin: 10px 0 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: none;
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        p {
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        a {
+            color: #00cfff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <h2>Register</h2>
-    <form method="POST" action="/register">
-        <label>Username:</label><br>
-        <input type="text" name="username" required><br><br>
+    <div class="register-container">
+        <h2>Register</h2>
+        <form method="POST" action="/register">
+            <label>Username:</label>
+            <input type="text" name="username" required>
 
-        <label>Full Name:</label><br>
-        <input type="text" name="full_name" required><br><br>
+            <label>Full Name:</label>
+            <input type="text" name="full_name" required>
 
-        <label>Email:</label><br>
-        <input type="email" name="email" required><br><br>
+            <label>Email:</label>
+            <input type="email" name="email" required>
 
-        <label>Phone Number:</label><br>
-        <input type="text" name="phone_number" required><br><br>
+            <label>Phone Number:</label>
+            <input type="text" name="phone_number" required>
 
-        <label>Password:</label><br>
-        <input type="password" name="passkey" required><br><br>
+            <label>Password:</label>
+            <input type="password" name="passkey" required>
 
-        <button type="submit">Register</button>
-    </form>
-    <p>Already registered? <a href="/login">Login here</a></p>
+            <button type="submit">Register</button>
+        </form>
+        <p>Already registered? <a href="/login">Login here</a></p>
+    </div>
 </body>
 </html>
-

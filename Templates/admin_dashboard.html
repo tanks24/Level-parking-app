@@ -2,10 +2,94 @@
 <html>
 <head>
     <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url("{{ url_for('static', filename='calm-bay-waters-background-peaceful-marine-scene_91128-4247.jpg') }}") no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            text-align: center;
+            padding: 40px;
+        }
+
+        h2 {
+            color: #f9f9f9;
+            margin-bottom: 20px;
+        }
+
+        .dashboard-section {
+            background-color: rgba(0, 0, 0, 0.6);
+            border-radius: 10px;
+            padding: 30px;
+            margin: 20px auto;
+            max-width: 700px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        a.button {
+            display: inline-block;
+            margin: 10px;
+            padding: 10px 18px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+        }
+
+        a.button:hover {
+            background-color: #2980b9;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 10px;
+        }
+
+        li {
+            margin: 10px 0;
+        }
+
+        strong {
+            color: #ecf0f1;
+        }
+    </style>
 </head>
 <body>
-    <h2>Welcome, {{ username }}</h2>
-    <p>You are logged in as an ADMIN.</p>
-    <a href="/logout">Logout</a>
+
+    <div class="dashboard-section">
+        <h2>Welcome Admin , {{ username }}</h2>
+
+        <a class="button" href="{{ url_for('routes.create_lot') }}">Create a New Parking Lot</a>
+        <a class="button" href="{{ url_for('routes.view_users') }}">View All Users</a>
+    </div>
+
+    <div class="dashboard-section">
+        <h2>Parking Spot Chart</h2>
+        <ul>
+            <li>Total Spots: {{ total_spots }}</li>
+            <li>Occupied Spots: {{ occupied_spots }}</li>
+            <li>Available Spots: {{ available_spots }}</li>
+        </ul>
+    </div>
+
+    <div class="dashboard-section">
+        <h2>Parking Lots</h2>
+        <ul>
+            {% for lot in lots %}
+                <li>
+                    <strong>{{ lot.prime_location_name }}</strong><br>
+                    <a class="button" href="{{ url_for('routes.view_lot', lot_id=lot.id) }}">View</a>
+                    <a class="button" href="{{ url_for('routes.edit_lot', lot_id=lot.id) }}">Edit</a>
+                    <a class="button" href="{{ url_for('routes.delete_lot', lot_id=lot.id) }}">Delete</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <a class="button" href="{{ url_for('routes.logout') }}">Logout</a>
+
 </body>
 </html>
