@@ -283,7 +283,9 @@ def release_spot(reservation_id):
     if reservation.lot.current_available_spots is not None:
         reservation.lot.current_available_spots += 1
     time_diff_hours = (reservation.leaving_timestamp - reservation.parking_timestamp).total_seconds() / 3600
-    reservation.total_cost = round(time_diff_hours * float(reservation.hourly_rate), 2)
+    reservation.total_cost = round(time_diff_hours-1 * float(reservation.hourly_rate), 2)
+    base = 1.5* float(reservation.hourly_rate)
+    reservation.total_cost = base + reservation.total_cost
 
     db.session.commit()
 
@@ -302,7 +304,9 @@ def calculate_cost(reservation):
         duration = reservation.leaving_timestamp - reservation.parking_timestamp
         total_seconds = duration.total_seconds()
         hours = total_seconds / 3600
+        base = 1.5* float(reservation.hourly_rate)
       
-        cost = round(hours * float(reservation.hourly_rate), 2)
+        cost = round(hours * float(reservation.hourly_rate-1), 2)
+        cost = base + cost 
         return cost
     return 0.0
