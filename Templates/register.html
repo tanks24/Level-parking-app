@@ -17,7 +17,7 @@
         }
 
         .register-container {
-            background-color: rgba(0, 0, 0, 0.6);
+            background-color: rgba(52, 52, 52, 0.6);
             padding: 40px;
             border-radius: 15px;
             width: 400px;
@@ -55,7 +55,7 @@
         }
 
         button:hover {
-            background-color: #45a049;
+            background-color: #f88cdb;
         }
 
         p {
@@ -64,7 +64,7 @@
         }
 
         a {
-            color: #00cfff;
+            color: #6bd7ef;
             text-decoration: none;
         }
 
@@ -77,20 +77,22 @@
     <div class="register-container">
         <h2>Register</h2>
         <form method="POST" action="/register">
-            <label>Username:</label>
-            <input type="text" name="username" required>
-
-            <label>Full Name:</label>
+            
+            <label>FULL NAME:</label>
             <input type="text" name="full_name" required>
 
-            <label>Email:</label>
+            <label>EMAIL:</label>
             <input type="email" name="email" required>
 
-            <label>Phone Number:</label>
+            <label>PHONE NUMBER:</label>
             <input type="text" name="phone_number" required>
 
-            <label>Password:</label>
+            <label>USERNAME:</label>
+            <input type="text" name="username" required>
+
+             <label>PASSWORD:</label>
             <input type="password" name="passkey" required>
+
 
             <button type="submit">Register</button>
         </form>
