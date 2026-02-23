@@ -114,16 +114,6 @@
     <div class="container">
         <h1>Welcome, {{ username }}</h1>
 
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                <ul class="flash-messages">
-                    {% for category, message in messages %}
-                        <li class="{{ category }}">{{ message }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        {% endwith %}
-
         {% if active_reservation %}
         <div class="card">
             <h3>Your Active Reservation</h3>
